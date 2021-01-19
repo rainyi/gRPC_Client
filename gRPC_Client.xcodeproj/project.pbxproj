@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,6 +15,8 @@
 		2641FE9025B67E6C00E3361A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2641FE8E25B67E6C00E3361A /* LaunchScreen.storyboard */; };
 		2641FE9B25B67E6C00E3361A /* gRPC_ClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2641FE9A25B67E6C00E3361A /* gRPC_ClientTests.swift */; };
 		2641FEA625B67E6C00E3361A /* gRPC_ClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2641FEA525B67E6C00E3361A /* gRPC_ClientUITests.swift */; };
+		2641FEFC25B6849000E3361A /* helloworld.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2641FEFA25B6849000E3361A /* helloworld.pb.swift */; };
+		2641FF0525B6887900E3361A /* helloworld.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2641FF0425B6887900E3361A /* helloworld.grpc.swift */; };
 		33BABCF9031B7E12BE855E56 /* Pods_gRPC_Client_gRPC_ClientUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68603AE67196F357B0CEEEF8 /* Pods_gRPC_Client_gRPC_ClientUITests.framework */; };
 		A5FA9503DB7167D860885C5C /* Pods_gRPC_ClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8972FF6C8ECCC9D4B1EA60C4 /* Pods_gRPC_ClientTests.framework */; };
 		D60325B4C344B99CEF195A58 /* Pods_gRPC_Client.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7368B1730333AAF9563ED91D /* Pods_gRPC_Client.framework */; };
@@ -55,6 +57,8 @@
 		2641FEA125B67E6C00E3361A /* gRPC_ClientUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = gRPC_ClientUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2641FEA525B67E6C00E3361A /* gRPC_ClientUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gRPC_ClientUITests.swift; sourceTree = "<group>"; };
 		2641FEA725B67E6C00E3361A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2641FEFA25B6849000E3361A /* helloworld.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helloworld.pb.swift; sourceTree = "<group>"; };
+		2641FF0425B6887900E3361A /* helloworld.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helloworld.grpc.swift; sourceTree = "<group>"; };
 		424223C7C979438BFA768BEB /* Pods-gRPC_ClientTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gRPC_ClientTests.debug.xcconfig"; path = "Target Support Files/Pods-gRPC_ClientTests/Pods-gRPC_ClientTests.debug.xcconfig"; sourceTree = "<group>"; };
 		48989BB3CCEC3CE7153E80E7 /* Pods-gRPC_ClientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gRPC_ClientTests.release.xcconfig"; path = "Target Support Files/Pods-gRPC_ClientTests/Pods-gRPC_ClientTests.release.xcconfig"; sourceTree = "<group>"; };
 		68603AE67196F357B0CEEEF8 /* Pods_gRPC_Client_gRPC_ClientUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_gRPC_Client_gRPC_ClientUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -123,6 +127,8 @@
 				2641FE8C25B67E6C00E3361A /* Assets.xcassets */,
 				2641FE8E25B67E6C00E3361A /* LaunchScreen.storyboard */,
 				2641FE9125B67E6C00E3361A /* Info.plist */,
+				2641FEFA25B6849000E3361A /* helloworld.pb.swift */,
+				2641FF0425B6887900E3361A /* helloworld.grpc.swift */,
 			);
 			path = gRPC_Client;
 			sourceTree = "<group>";
@@ -155,7 +161,6 @@
 				424223C7C979438BFA768BEB /* Pods-gRPC_ClientTests.debug.xcconfig */,
 				48989BB3CCEC3CE7153E80E7 /* Pods-gRPC_ClientTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -409,6 +414,8 @@
 			files = (
 				2641FE8825B67E6B00E3361A /* ViewController.swift in Sources */,
 				2641FE8425B67E6B00E3361A /* AppDelegate.swift in Sources */,
+				2641FEFC25B6849000E3361A /* helloworld.pb.swift in Sources */,
+				2641FF0525B6887900E3361A /* helloworld.grpc.swift in Sources */,
 				2641FE8625B67E6B00E3361A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

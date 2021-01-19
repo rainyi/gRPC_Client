@@ -22,11 +22,30 @@ class ViewController: UIViewController {
     }
 
     func commonInit() {
-        let hostName: String = ""
-        let port: Int = 0
+        let hostName: String = "172.19.136..161"
+        let port: Int = 31105
         let token: String = ""
         
         let headers: HPACKHeaders = ["authorization" : token]
     }
+    
+    func greet(name: String?, client greeter: Helloworld_GreeterClient) {
+      // Form the request with the name, if one was provided.
+      let request = Helloworld_HelloRequest.with {
+        $0.name = name ?? ""
+      }
+
+      // Make the RPC call to the server.
+      let sayHello = greeter.sayHello(request)
+
+      // wait() on the response to stop the program from exiting before the response is received.
+      do {
+        let response = try sayHello.response.wait()
+        print("Greeter received: \(response.message)")
+      } catch {
+        print("Greeter failed: \(error)")
+      }
+    }
+    
 }
 
