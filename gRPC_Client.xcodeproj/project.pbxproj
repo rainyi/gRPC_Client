@@ -17,6 +17,11 @@
 		2641FEA625B67E6C00E3361A /* gRPC_ClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2641FEA525B67E6C00E3361A /* gRPC_ClientUITests.swift */; };
 		2641FEFC25B6849000E3361A /* helloworld.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2641FEFA25B6849000E3361A /* helloworld.pb.swift */; };
 		2641FF0525B6887900E3361A /* helloworld.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2641FF0425B6887900E3361A /* helloworld.grpc.swift */; };
+		26D5CE8F25B6A07C0002C60C /* ChatService.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D5CE8A25B6A07B0002C60C /* ChatService.pb.swift */; };
+		26D5CE9025B6A07C0002C60C /* ChatService.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D5CE8B25B6A07B0002C60C /* ChatService.grpc.swift */; };
+		26D5CE9125B6A07C0002C60C /* Error.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D5CE8C25B6A07C0002C60C /* Error.pb.swift */; };
+		26D5CE9225B6A07C0002C60C /* Error.proto in Sources */ = {isa = PBXBuildFile; fileRef = 26D5CE8D25B6A07C0002C60C /* Error.proto */; };
+		26D5CE9325B6A07C0002C60C /* ChatService.proto in Sources */ = {isa = PBXBuildFile; fileRef = 26D5CE8E25B6A07C0002C60C /* ChatService.proto */; };
 		33BABCF9031B7E12BE855E56 /* Pods_gRPC_Client_gRPC_ClientUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68603AE67196F357B0CEEEF8 /* Pods_gRPC_Client_gRPC_ClientUITests.framework */; };
 		A5FA9503DB7167D860885C5C /* Pods_gRPC_ClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8972FF6C8ECCC9D4B1EA60C4 /* Pods_gRPC_ClientTests.framework */; };
 		D60325B4C344B99CEF195A58 /* Pods_gRPC_Client.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7368B1730333AAF9563ED91D /* Pods_gRPC_Client.framework */; };
@@ -59,6 +64,11 @@
 		2641FEA725B67E6C00E3361A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2641FEFA25B6849000E3361A /* helloworld.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helloworld.pb.swift; sourceTree = "<group>"; };
 		2641FF0425B6887900E3361A /* helloworld.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helloworld.grpc.swift; sourceTree = "<group>"; };
+		26D5CE8A25B6A07B0002C60C /* ChatService.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatService.pb.swift; sourceTree = "<group>"; };
+		26D5CE8B25B6A07B0002C60C /* ChatService.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatService.grpc.swift; sourceTree = "<group>"; };
+		26D5CE8C25B6A07C0002C60C /* Error.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.pb.swift; sourceTree = "<group>"; };
+		26D5CE8D25B6A07C0002C60C /* Error.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.protobuf; path = Error.proto; sourceTree = "<group>"; };
+		26D5CE8E25B6A07C0002C60C /* ChatService.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.protobuf; path = ChatService.proto; sourceTree = "<group>"; };
 		424223C7C979438BFA768BEB /* Pods-gRPC_ClientTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gRPC_ClientTests.debug.xcconfig"; path = "Target Support Files/Pods-gRPC_ClientTests/Pods-gRPC_ClientTests.debug.xcconfig"; sourceTree = "<group>"; };
 		48989BB3CCEC3CE7153E80E7 /* Pods-gRPC_ClientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gRPC_ClientTests.release.xcconfig"; path = "Target Support Files/Pods-gRPC_ClientTests/Pods-gRPC_ClientTests.release.xcconfig"; sourceTree = "<group>"; };
 		68603AE67196F357B0CEEEF8 /* Pods_gRPC_Client_gRPC_ClientUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_gRPC_Client_gRPC_ClientUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,6 +139,11 @@
 				2641FE9125B67E6C00E3361A /* Info.plist */,
 				2641FEFA25B6849000E3361A /* helloworld.pb.swift */,
 				2641FF0425B6887900E3361A /* helloworld.grpc.swift */,
+				26D5CE8B25B6A07B0002C60C /* ChatService.grpc.swift */,
+				26D5CE8A25B6A07B0002C60C /* ChatService.pb.swift */,
+				26D5CE8E25B6A07C0002C60C /* ChatService.proto */,
+				26D5CE8C25B6A07C0002C60C /* Error.pb.swift */,
+				26D5CE8D25B6A07C0002C60C /* Error.proto */,
 			);
 			path = gRPC_Client;
 			sourceTree = "<group>";
@@ -412,10 +427,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26D5CE9325B6A07C0002C60C /* ChatService.proto in Sources */,
 				2641FE8825B67E6B00E3361A /* ViewController.swift in Sources */,
 				2641FE8425B67E6B00E3361A /* AppDelegate.swift in Sources */,
+				26D5CE9025B6A07C0002C60C /* ChatService.grpc.swift in Sources */,
+				26D5CE9125B6A07C0002C60C /* Error.pb.swift in Sources */,
+				26D5CE9225B6A07C0002C60C /* Error.proto in Sources */,
 				2641FEFC25B6849000E3361A /* helloworld.pb.swift in Sources */,
 				2641FF0525B6887900E3361A /* helloworld.grpc.swift in Sources */,
+				26D5CE8F25B6A07C0002C60C /* ChatService.pb.swift in Sources */,
 				2641FE8625B67E6B00E3361A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,0 +1,71 @@
+
+syntax = "proto3";
+option java_multiple_files = true;
+
+package com.ncsoft.aiss.chat.paige.v1;
+
+// services
+service ChatRoomService {
+  rpc create(CreateChatRoomRequest) returns (ChatRoom);
+  rpc remove(RemoveChatRoomRequest) returns (ChatRoom);
+  rpc get(GetChatRoomRequest) returns (ChatRoom);
+  rpc getAll(GetAllChatRoomRequest) returns (GetAllChatRoomResponse);
+}
+
+service ChatStreamService {
+  rpc send(stream ChatStreamRequest) returns (stream ChatStreamResponse);
+}
+
+// enums
+enum ChatStreamCommand {
+  JOIN = 0;
+  LEAVE = 1;
+  CHAT = 2;
+}
+
+// messages
+// ChatRoom messages
+message ChatRoom {
+  string id = 1;
+  string title = 2;
+  int32 size = 3;
+  int64 createdAt = 4;
+}
+
+message CreateChatRoomRequest {
+  string chatRoomId = 1;
+  string chatRoomTitle = 2;
+}
+
+message RemoveChatRoomRequest {
+  string chatRoomId = 1;
+}
+
+message GetChatRoomRequest {
+  string chatRoomId = 1;
+}
+
+message GetAllChatRoomRequest {
+}
+
+message GetAllChatRoomResponse {
+  repeated ChatRoom chatRooms = 1;
+}
+
+// ChatStream messages
+message ChatStreamRequest {
+  ChatStreamCommand command = 1;
+  string chatRoomId = 10;
+  string userId = 11;
+  string userName = 12;
+  string message = 13;
+}
+
+message ChatStreamResponse {
+  ChatStreamCommand command = 1;
+  string chatRoomId = 10;
+  string userId = 11;
+  string userName = 12;
+  string message = 13;
+  int64 epochMillis = 100;
+}
