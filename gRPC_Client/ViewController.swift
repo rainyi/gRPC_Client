@@ -14,116 +14,128 @@ import NIOHTTP2
 import NIOHTTP1
 import NIOHPACK
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
+    @IBOutlet weak var btnJoin: UIButton!
+    
+    @IBOutlet weak var tfMessage: UITextField!
+    
+    var chatRoom: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom = Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom()
+    var client: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoomServiceClient?
+    var streamRequest = Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamRequest()
+    var bdsCall: BidirectionalStreamingCall<Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamRequest, Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamResponse>?
+    
+    lazy var configuration: GRPC.ClientConnection.Configuration = {
+        let hostName: String = "172.19.136.161"
+        let port: Int = 31105
+        
+        let configuration = ClientConnection.Configuration(
+            target: .hostAndPort(hostName, port),
+            eventLoopGroup: MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        )
+        
+        return configuration
+    }()
+    
+    lazy var streamClient: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamServiceClientProtocol = {
+        let streamClient = Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamServiceClient(channel: ClientConnection(configuration: configuration))
+        
+        return streamClient
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.btnJoin.isEnabled = false
+        self.tfMessage.isEnabled = false
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.commonInit()
+    }
+    
     func commonInit() {
-        let hostName: String = "172.19.136.161"
-        let port: Int = 31105
-//        let token: String = ""
-//
-//        let headers: HPACKHeaders = ["authorization" : token]
-        
-        
-        // Create an event Loop group
-        let group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
-        
-        // Make sure the group is shutdown when we're done with it.
-        defer {
-            try! group.syncShutdownGracefully()
+        if let response: Com_Ncsoft_Aiss_Chat_Paige_V1_GetAllChatRoomResponse = self.getChatRoom() {
+            if response.chatRooms.count > 0 {
+                if let selectChatRoom: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom = response.chatRooms.first {
+                    self.chatRoom = selectChatRoom
+                    self.btnJoin.isEnabled = true
+                }
+            }
         }
-        
-        #if true
-        // Create client connection builder
-        let builder: ClientConnection.Builder
-        
-        builder = ClientConnection.secure(group: group)
-        
-        // Start the connection and create the client
-        let connection = builder.connect(host: hostName, port: port)
-        
-        print("Connection Status=>:\(connection)")
-        
-        // Create client
-        let client = Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamServiceClient.init(channel: connection)
-        
-        let streamingCall: BidirectionalStreamingCall = client.send(callOptions: nil) { (response) in
-            print(response)
-        }
-        
-        let request: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamRequest = Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamRequest()
-        
-        
-        streamingCall.sendMessage(request)
-        
-        
-        
-        #endif
-        
-//        // Configure the channel, we're not using TLS so the connection is `insecure`.
-//        let channel = ClientConnection.insecure(group: group)
-//            .connect(host: hostName, port: port)
-//
-//        // Close the connection when we're done with it.
-//        do {
-//            try! channel.close().wait()
-//        }
-//
-//        let room: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoomServiceClient = Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoomServiceClient(channel: channel)
-//
-//        let stream: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamServiceClient = Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamServiceClient(channel: channel)
-//
-//        room.create(<#T##request: Com_Ncsoft_Aiss_Chat_Paige_V1_CreateChatRoomRequest##Com_Ncsoft_Aiss_Chat_Paige_V1_CreateChatRoomRequest#>)
-//
-//        stream.send(callOptions: nil) { (response) in
-//            print(response)
-//        }
-        
-        
     }
     
-    func getRequest(client: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamServiceClient) {
+    func getChatRoom() -> Com_Ncsoft_Aiss_Chat_Paige_V1_GetAllChatRoomResponse? {
+        do {
+            self.client = Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoomServiceClient(channel: ClientConnection(configuration: self.configuration))
+            let request = Com_Ncsoft_Aiss_Chat_Paige_V1_GetAllChatRoomRequest()
+            
+            if let chatRoomServiceClient: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoomServiceClient = self.client {
+                let response = try chatRoomServiceClient.getAll(request).response.wait()
+
+                print(response)
+                
+                return response
+            }
+        } catch {
+            print("ERROR\n\(error)")
+        }
         
-        
-//        do {
-//            //build the request Header
-//            let getRequestParam: <yourRequest> = .with {
-//                $0.<your defined parameter in .pb.swift file for request> = "value"
-//                $0.<param2> = “value”
-//                $0.<param3> = “value”
-//            }
-//            //call the request service
-//            let getUserRequest = client.getDetails(getRequestParam)
-//            getUserRequest.response.whenComplete { result in
-//                print(“Output for get request:\(result)”)
-//            }
-//            let detailsStatus = try getUserRequest.status.wait()
-//            print(“Staus:::\(detailsStatus) \n \(detailsStatus.code))”)
-//        } catch {
-//            print(“Error for get Request:\(error)”)
-//        }
+        return nil
     }
     
-    func greet(name: String?, client greeter: Helloworld_GreeterClient) {
-      // Form the request with the name, if one was provided.
-      let request = Helloworld_HelloRequest.with {
-        $0.name = name ?? ""
-      }
-
-      // Make the RPC call to the server.
-      let sayHello = greeter.sayHello(request)
-
-      // wait() on the response to stop the program from exiting before the response is received.
-      do {
-        let response = try sayHello.response.wait()
-        print("Greeter received: \(response.message)")
-      } catch {
-        print("Greeter failed: \(error)")
-      }
+    func joinToChatRoom() {
+        self.streamRequest.chatRoomID = "asdfasdfkjaslkfjaslkfjslk" // self.chatRoom.id
+        self.streamRequest.command = .join
+        self.streamRequest.userID = "2"
+        self.streamRequest.userName = "레이니2"
+        
+        self.bdsCall = self.streamClient.send(handler: { [weak self] (streamRequest) in
+            print(streamRequest)
+            
+            if let weakSelf = self {
+                DispatchQueue.main.async {
+                    if streamRequest.command == .chat {
+                        weakSelf.tfMessage.text = ""
+                        weakSelf.view.endEditing(true)
+                    } else {
+                        weakSelf.tfMessage.isEnabled = true
+                    }
+                }
+            }
+        })
+        
+        if let call: BidirectionalStreamingCall<Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamRequest, Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamResponse>
+            = self.bdsCall {
+            call.sendMessage(streamRequest, compression: .deferToCallDefault, promise: .none)
+        }
+    }
+    
+    func sendMessageToChatRoom(message: String) {
+        self.view.endEditing(true)
+        
+        self.streamRequest.command = .chat
+        self.streamRequest.message = message
+        
+        if let call: BidirectionalStreamingCall<Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamRequest, Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamResponse> = self.bdsCall {
+            call.sendMessage(streamRequest, compression: .deferToCallDefault, promise: .none)
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let text: String = textField.text {
+            if text.count > 0 {
+                self.sendMessageToChatRoom(message: text)
+            }
+        }
+        
+        return true
+    }
+    
+    @IBAction func joinButtonWasPressed(_ sender: Any) {
+        self.joinToChatRoom()
     }
     
 }
