@@ -17,6 +17,7 @@ import NIOHPACK
 class ViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var btnJoin: UIButton!
+    @IBOutlet weak var btnLeave: UIButton!
     
     @IBOutlet weak var tfMessage: UITextField!
     
@@ -24,6 +25,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var client: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoomServiceClient?
     var streamRequest = Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamRequest()
     var bdsCall: BidirectionalStreamingCall<Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamRequest, Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamResponse>?
+    
+    var grpcManager: gRPCManager = gRPCManager()
     
     lazy var configuration: GRPC.ClientConnection.Configuration = {
         let hostName: String = "172.19.136.161"
@@ -47,7 +50,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.btnJoin.isEnabled = false
-        self.tfMessage.isEnabled = false
+        self.tfMessage.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,6 +60,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func commonInit() {
+#if true
+        if let response: Com_Ncsoft_Aiss_Chat_Paige_V1_GetAllChatRoomResponse = self.grpcManager.getChatRoomList() {
+            if response.chatRooms.count > 0 {
+                if let selectChatRoom: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom = response.chatRooms.first {
+                    self.chatRoom = selectChatRoom
+                    self.btnJoin.isEnabled = true
+                }
+            }
+        }
+#else
         if let response: Com_Ncsoft_Aiss_Chat_Paige_V1_GetAllChatRoomResponse = self.getChatRoom() {
             if response.chatRooms.count > 0 {
                 if let selectChatRoom: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom = response.chatRooms.first {
@@ -65,6 +78,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 }
             }
         }
+#endif
     }
     
     func getChatRoom() -> Com_Ncsoft_Aiss_Chat_Paige_V1_GetAllChatRoomResponse? {
@@ -101,7 +115,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         weakSelf.tfMessage.text = ""
                         weakSelf.view.endEditing(true)
                     } else {
-                        weakSelf.tfMessage.isEnabled = true
+                        weakSelf.tfMessage.isHidden = false
                     }
                 }
             }
@@ -127,7 +141,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let text: String = textField.text {
             if text.count > 0 {
+#if true
+            self.grpcManager.sendMessageToChatRoom(message: text)
+#else
                 self.sendMessageToChatRoom(message: text)
+#endif
             }
         }
         
@@ -135,7 +153,28 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func joinButtonWasPressed(_ sender: Any) {
+#if true
+    self.grpcManager.joinToChatRoom(chatRoom: self.chatRoom, userID: "2", userName: "레이니2") { [weak self] (response) in
+        print(response)
+        
+        if let weakSelf = self {
+            DispatchQueue.main.async {
+                if response.command == .chat {
+                    weakSelf.tfMessage.text = ""
+                    weakSelf.view.endEditing(true)
+                } else {
+                    weakSelf.tfMessage.isHidden = false
+                }
+            }
+        }
+    }
+#else
         self.joinToChatRoom()
+#endif
+    }
+    
+    @IBAction func leaveButtonWasPressed(_ sender: Any) {
+        self.grpcManager.leaveChatRoom()
     }
     
 }

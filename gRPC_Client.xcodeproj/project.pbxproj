@@ -22,6 +22,7 @@
 		26D5CE9125B6A07C0002C60C /* Error.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D5CE8C25B6A07C0002C60C /* Error.pb.swift */; };
 		26D5CE9225B6A07C0002C60C /* Error.proto in Sources */ = {isa = PBXBuildFile; fileRef = 26D5CE8D25B6A07C0002C60C /* Error.proto */; };
 		26D5CE9325B6A07C0002C60C /* ChatService.proto in Sources */ = {isa = PBXBuildFile; fileRef = 26D5CE8E25B6A07C0002C60C /* ChatService.proto */; };
+		26D5CF2225B80F970002C60C /* gRPCManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D5CF2125B80F970002C60C /* gRPCManager.swift */; };
 		33BABCF9031B7E12BE855E56 /* Pods_gRPC_Client_gRPC_ClientUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68603AE67196F357B0CEEEF8 /* Pods_gRPC_Client_gRPC_ClientUITests.framework */; };
 		A5FA9503DB7167D860885C5C /* Pods_gRPC_ClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8972FF6C8ECCC9D4B1EA60C4 /* Pods_gRPC_ClientTests.framework */; };
 		D60325B4C344B99CEF195A58 /* Pods_gRPC_Client.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7368B1730333AAF9563ED91D /* Pods_gRPC_Client.framework */; };
@@ -69,6 +70,7 @@
 		26D5CE8C25B6A07C0002C60C /* Error.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.pb.swift; sourceTree = "<group>"; };
 		26D5CE8D25B6A07C0002C60C /* Error.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.protobuf; path = Error.proto; sourceTree = "<group>"; };
 		26D5CE8E25B6A07C0002C60C /* ChatService.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.protobuf; path = ChatService.proto; sourceTree = "<group>"; };
+		26D5CF2125B80F970002C60C /* gRPCManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gRPCManager.swift; sourceTree = "<group>"; };
 		424223C7C979438BFA768BEB /* Pods-gRPC_ClientTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gRPC_ClientTests.debug.xcconfig"; path = "Target Support Files/Pods-gRPC_ClientTests/Pods-gRPC_ClientTests.debug.xcconfig"; sourceTree = "<group>"; };
 		48989BB3CCEC3CE7153E80E7 /* Pods-gRPC_ClientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gRPC_ClientTests.release.xcconfig"; path = "Target Support Files/Pods-gRPC_ClientTests/Pods-gRPC_ClientTests.release.xcconfig"; sourceTree = "<group>"; };
 		68603AE67196F357B0CEEEF8 /* Pods_gRPC_Client_gRPC_ClientUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_gRPC_Client_gRPC_ClientUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -133,6 +135,7 @@
 				2641FE8325B67E6B00E3361A /* AppDelegate.swift */,
 				2641FE8525B67E6B00E3361A /* SceneDelegate.swift */,
 				2641FE8725B67E6B00E3361A /* ViewController.swift */,
+				26D5CF2125B80F970002C60C /* gRPCManager.swift */,
 				2641FE8925B67E6B00E3361A /* Main.storyboard */,
 				2641FE8C25B67E6C00E3361A /* Assets.xcassets */,
 				2641FE8E25B67E6C00E3361A /* LaunchScreen.storyboard */,
@@ -429,6 +432,7 @@
 			files = (
 				26D5CE9325B6A07C0002C60C /* ChatService.proto in Sources */,
 				2641FE8825B67E6B00E3361A /* ViewController.swift in Sources */,
+				26D5CF2225B80F970002C60C /* gRPCManager.swift in Sources */,
 				2641FE8425B67E6B00E3361A /* AppDelegate.swift in Sources */,
 				26D5CE9025B6A07C0002C60C /* ChatService.grpc.swift in Sources */,
 				26D5CE9125B6A07C0002C60C /* Error.pb.swift in Sources */,

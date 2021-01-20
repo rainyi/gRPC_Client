@@ -18,10 +18,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d3B-Ot-1YH">
-                                <rect key="frame" x="187" y="64" width="40" height="34"/>
+                                <rect key="frame" x="30" y="64" width="40" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="Ahc-F9-J3d"/>
-                                    <constraint firstAttribute="width" constant="40" id="BCh-TK-g8F"/>
                                 </constraints>
                                 <state key="normal" title="JOIN">
                                     <color key="titleColor" systemColor="labelColor"/>
@@ -41,19 +40,36 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="C9z-Cf-Gs7"/>
                                 </connections>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gzt-Jz-2HB">
+                                <rect key="frame" x="331" y="64" width="53" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="n56-2X-Pcb"/>
+                                </constraints>
+                                <state key="normal" title="LEAVE">
+                                    <color key="titleColor" systemColor="labelColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="joinButtonWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bSf-zw-VJn"/>
+                                    <action selector="leaveButtonWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cQG-mc-3NS"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="gzt-Jz-2HB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="1Ll-G8-sCZ"/>
                             <constraint firstItem="baM-m6-W2N" firstAttribute="top" secondItem="d3B-Ot-1YH" secondAttribute="bottom" constant="50" id="91z-KF-5rx"/>
                             <constraint firstItem="d3B-Ot-1YH" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="KTw-rO-EAz"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="baM-m6-W2N" secondAttribute="trailing" constant="10" id="RD8-Xg-Oc7"/>
+                            <constraint firstItem="gzt-Jz-2HB" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="d3B-Ot-1YH" secondAttribute="trailing" constant="8" symbolic="YES" id="Tfa-3J-h1J"/>
                             <constraint firstItem="baM-m6-W2N" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="ZYS-hr-QeH"/>
-                            <constraint firstItem="d3B-Ot-1YH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="eBm-eG-YA4"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gzt-Jz-2HB" secondAttribute="trailing" constant="30" id="i8e-eu-O3L"/>
+                            <constraint firstItem="d3B-Ot-1YH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="l3W-1O-2oa"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="btnJoin" destination="d3B-Ot-1YH" id="lP0-zW-gX0"/>
+                        <outlet property="btnLeave" destination="gzt-Jz-2HB" id="Ziw-3d-MHf"/>
                         <outlet property="tfMessage" destination="baM-m6-W2N" id="52L-uX-9iO"/>
                     </connections>
                 </viewController>
