@@ -17,65 +17,214 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d3B-Ot-1YH">
-                                <rect key="frame" x="30" y="64" width="40" height="34"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Host Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bej-MZ-e3m">
+                                <rect key="frame" x="10" y="54" width="394" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="34" id="Ahc-F9-J3d"/>
+                                    <constraint firstAttribute="height" constant="21" id="uYg-16-9xh"/>
                                 </constraints>
-                                <state key="normal" title="JOIN">
-                                    <color key="titleColor" systemColor="labelColor"/>
-                                </state>
-                                <connections>
-                                    <action selector="joinButtonWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LoQ-it-CVw"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="baM-m6-W2N">
-                                <rect key="frame" x="10" y="148" width="394" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Host" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tXX-gJ-WK3">
+                                <rect key="frame" x="10" y="80" width="394" height="34"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="34" id="gPJ-lo-uWD"/>
+                                    <constraint firstAttribute="height" constant="34" id="gPC-cr-xd0"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="C9z-Cf-Gs7"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="CA8-Qt-E9n"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gzt-Jz-2HB">
-                                <rect key="frame" x="331" y="64" width="53" height="34"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Port" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uny-BO-19k">
+                                <rect key="frame" x="10" y="124" width="394" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="34" id="n56-2X-Pcb"/>
+                                    <constraint firstAttribute="height" constant="21" id="Usk-hh-ydh"/>
                                 </constraints>
-                                <state key="normal" title="LEAVE">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Port" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZVP-Pr-RlC">
+                                <rect key="frame" x="10" y="150" width="394" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="HLN-aI-tjK"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="H1S-Bq-FfO"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TGp-fy-efx">
+                                <rect key="frame" x="10" y="194" width="111.5" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="VEx-eW-KmV"/>
+                                </constraints>
+                                <state key="normal" title="Connect">
                                     <color key="titleColor" systemColor="labelColor"/>
                                 </state>
                                 <connections>
-                                    <action selector="joinButtonWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bSf-zw-VJn"/>
-                                    <action selector="leaveButtonWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cQG-mc-3NS"/>
+                                    <action selector="connectButtonWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zsx-HE-HIV"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tKc-Ha-nra">
+                                <rect key="frame" x="151.5" y="194" width="111" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="RXE-NR-LxO"/>
+                                </constraints>
+                                <state key="normal" title="DIsconnect">
+                                    <color key="titleColor" systemColor="labelColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="disconnectButtonWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9eA-Od-SkJ"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Message here." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="baM-m6-W2N">
+                                <rect key="frame" x="10" y="326" width="394" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="VGK-GK-GeA"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="send"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="C9z-Cf-Gs7"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AC9-a0-Kdw">
+                                <rect key="frame" x="10" y="370" width="394" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="c16-Fr-YLz"/>
+                                </constraints>
+                                <state key="normal" title="Send">
+                                    <color key="titleColor" systemColor="labelColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="sendButtonWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nBx-Y1-OPi"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JSZ-6W-u9r">
+                                <rect key="frame" x="151.5" y="282" width="111" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="xAb-fm-3RM"/>
+                                </constraints>
+                                <state key="normal" title="Join">
+                                    <color key="titleColor" systemColor="labelColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="joinButtonWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0Z1-9y-6KS"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Create or Join Room ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EPc-A4-zAC">
+                                <rect key="frame" x="10" y="238" width="394" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="6Un-Pr-Hs1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="SWO-qV-pPf"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RfD-Hq-AVo">
+                                <rect key="frame" x="10" y="282" width="111.5" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="OEC-wK-mAZ"/>
+                                </constraints>
+                                <state key="normal" title="Create">
+                                    <color key="titleColor" systemColor="labelColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="createButtonWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="smK-ey-w5D"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xgO-Kz-YCF">
+                                <rect key="frame" x="292.5" y="282" width="111.5" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="wef-MD-MKX"/>
+                                </constraints>
+                                <state key="normal" title="Leave">
+                                    <color key="titleColor" systemColor="labelColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="leaveButtonWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UUT-5T-hWO"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3GA-m1-ybv">
+                                <rect key="frame" x="292.5" y="194" width="111.5" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="00S-p0-zev"/>
+                                </constraints>
+                                <state key="normal" title="Get Room List">
+                                    <color key="titleColor" systemColor="labelColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="getRoomListButtonWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vwo-NJ-s11"/>
                                 </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="gzt-Jz-2HB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="1Ll-G8-sCZ"/>
-                            <constraint firstItem="baM-m6-W2N" firstAttribute="top" secondItem="d3B-Ot-1YH" secondAttribute="bottom" constant="50" id="91z-KF-5rx"/>
-                            <constraint firstItem="d3B-Ot-1YH" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="KTw-rO-EAz"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="baM-m6-W2N" secondAttribute="trailing" constant="10" id="RD8-Xg-Oc7"/>
-                            <constraint firstItem="gzt-Jz-2HB" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="d3B-Ot-1YH" secondAttribute="trailing" constant="8" symbolic="YES" id="Tfa-3J-h1J"/>
-                            <constraint firstItem="baM-m6-W2N" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="ZYS-hr-QeH"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gzt-Jz-2HB" secondAttribute="trailing" constant="30" id="i8e-eu-O3L"/>
-                            <constraint firstItem="d3B-Ot-1YH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="l3W-1O-2oa"/>
+                            <constraint firstItem="baM-m6-W2N" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="23M-GD-HxB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ZVP-Pr-RlC" secondAttribute="trailing" constant="10" id="2rn-GJ-vCl"/>
+                            <constraint firstItem="tKc-Ha-nra" firstAttribute="top" secondItem="ZVP-Pr-RlC" secondAttribute="bottom" constant="10" id="39R-xo-RST"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="AC9-a0-Kdw" secondAttribute="trailing" constant="10" id="4Bv-eA-Dti"/>
+                            <constraint firstItem="3GA-m1-ybv" firstAttribute="width" secondItem="TGp-fy-efx" secondAttribute="width" id="6V9-4g-dhW"/>
+                            <constraint firstItem="tKc-Ha-nra" firstAttribute="leading" secondItem="TGp-fy-efx" secondAttribute="trailing" constant="30" id="B1k-9s-SRF"/>
+                            <constraint firstItem="xgO-Kz-YCF" firstAttribute="leading" secondItem="JSZ-6W-u9r" secondAttribute="trailing" constant="30" id="CLe-yW-Iz2"/>
+                            <constraint firstItem="TGp-fy-efx" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="CPb-2w-Q9v"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="uny-BO-19k" secondAttribute="trailing" constant="10" id="DdW-i0-zky"/>
+                            <constraint firstItem="uny-BO-19k" firstAttribute="top" secondItem="tXX-gJ-WK3" secondAttribute="bottom" constant="10" id="EQW-2R-RIr"/>
+                            <constraint firstItem="3GA-m1-ybv" firstAttribute="leading" secondItem="tKc-Ha-nra" secondAttribute="trailing" constant="30" id="Fav-Oo-rJ4"/>
+                            <constraint firstItem="AC9-a0-Kdw" firstAttribute="top" secondItem="baM-m6-W2N" secondAttribute="bottom" constant="10" id="GpI-pZ-r20"/>
+                            <constraint firstItem="xgO-Kz-YCF" firstAttribute="width" secondItem="RfD-Hq-AVo" secondAttribute="width" id="KJ7-Qm-y4o"/>
+                            <constraint firstItem="EPc-A4-zAC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="10" id="MMV-wK-JCi"/>
+                            <constraint firstItem="ZVP-Pr-RlC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="Q26-tv-Vmt"/>
+                            <constraint firstItem="xgO-Kz-YCF" firstAttribute="top" secondItem="EPc-A4-zAC" secondAttribute="bottom" constant="10" id="RHu-Oc-aQ7"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tXX-gJ-WK3" secondAttribute="trailing" constant="10" id="SOe-aV-cZ5"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="3GA-m1-ybv" secondAttribute="trailing" constant="10" id="TZI-RV-h3E"/>
+                            <constraint firstItem="3GA-m1-ybv" firstAttribute="top" secondItem="ZVP-Pr-RlC" secondAttribute="bottom" constant="10" id="UhQ-Sm-x6R"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Bej-MZ-e3m" secondAttribute="trailing" constant="10" id="XiL-ac-wjR"/>
+                            <constraint firstItem="JSZ-6W-u9r" firstAttribute="width" secondItem="RfD-Hq-AVo" secondAttribute="width" id="Y2O-0N-gVz"/>
+                            <constraint firstItem="tKc-Ha-nra" firstAttribute="width" secondItem="TGp-fy-efx" secondAttribute="width" id="aKb-8g-hdF"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="EPc-A4-zAC" secondAttribute="trailing" constant="10" id="aWB-lt-FDn"/>
+                            <constraint firstItem="Bej-MZ-e3m" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="ab4-T4-jLz"/>
+                            <constraint firstItem="uny-BO-19k" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="c6u-MF-J6w"/>
+                            <constraint firstItem="tXX-gJ-WK3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="dP8-jG-HZE"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="baM-m6-W2N" secondAttribute="trailing" constant="10" id="dVG-j9-pGQ"/>
+                            <constraint firstItem="AC9-a0-Kdw" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="g0M-0A-TZb"/>
+                            <constraint firstItem="JSZ-6W-u9r" firstAttribute="top" secondItem="EPc-A4-zAC" secondAttribute="bottom" constant="10" id="gMA-l1-8vu"/>
+                            <constraint firstItem="RfD-Hq-AVo" firstAttribute="top" secondItem="EPc-A4-zAC" secondAttribute="bottom" constant="10" id="gX7-ZU-L2B"/>
+                            <constraint firstItem="tXX-gJ-WK3" firstAttribute="top" secondItem="Bej-MZ-e3m" secondAttribute="bottom" constant="5" id="h3I-41-jKF"/>
+                            <constraint firstItem="TGp-fy-efx" firstAttribute="top" secondItem="ZVP-Pr-RlC" secondAttribute="bottom" constant="10" id="hW7-fp-inB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xgO-Kz-YCF" secondAttribute="trailing" constant="10" id="lWb-rp-Ah0"/>
+                            <constraint firstItem="baM-m6-W2N" firstAttribute="top" secondItem="JSZ-6W-u9r" secondAttribute="bottom" constant="10" id="ssB-XO-dpP"/>
+                            <constraint firstItem="ZVP-Pr-RlC" firstAttribute="top" secondItem="uny-BO-19k" secondAttribute="bottom" constant="5" id="w3a-85-O2d"/>
+                            <constraint firstItem="RfD-Hq-AVo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="wXg-fP-i08"/>
+                            <constraint firstItem="EPc-A4-zAC" firstAttribute="top" secondItem="TGp-fy-efx" secondAttribute="bottom" constant="10" id="yRA-tw-4wS"/>
+                            <constraint firstItem="JSZ-6W-u9r" firstAttribute="leading" secondItem="RfD-Hq-AVo" secondAttribute="trailing" constant="30" id="ytW-M6-F44"/>
+                            <constraint firstItem="Bej-MZ-e3m" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="zll-Zh-XcS"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="btnJoin" destination="d3B-Ot-1YH" id="lP0-zW-gX0"/>
-                        <outlet property="btnLeave" destination="gzt-Jz-2HB" id="Ziw-3d-MHf"/>
+                        <outlet property="btnConnect" destination="TGp-fy-efx" id="YKo-6p-UbF"/>
+                        <outlet property="btnCreate" destination="RfD-Hq-AVo" id="98L-0F-ZOq"/>
+                        <outlet property="btnDisconnect" destination="tKc-Ha-nra" id="F22-F2-ev4"/>
+                        <outlet property="btnGetRoomList" destination="3GA-m1-ybv" id="NF2-Sw-NVV"/>
+                        <outlet property="btnJoin" destination="JSZ-6W-u9r" id="eMt-Hh-z3b"/>
+                        <outlet property="btnLeave" destination="xgO-Kz-YCF" id="oDl-9b-hYr"/>
+                        <outlet property="btnSend" destination="AC9-a0-Kdw" id="MkR-f6-h8i"/>
+                        <outlet property="tfHostName" destination="tXX-gJ-WK3" id="RxB-e3-bxg"/>
                         <outlet property="tfMessage" destination="baM-m6-W2N" id="52L-uX-9iO"/>
+                        <outlet property="tfPort" destination="ZVP-Pr-RlC" id="pVa-Lg-J1e"/>
+                        <outlet property="tfRoomID" destination="EPc-A4-zAC" id="2Ek-QD-nyY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-261" y="130"/>
+            <point key="canvasLocation" x="-262.31884057971018" y="129.91071428571428"/>
         </scene>
     </scenes>
     <resources>
