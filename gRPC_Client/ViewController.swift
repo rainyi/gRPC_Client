@@ -124,29 +124,29 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func changeStateButton() {
-        var state: ConnectivityState = .idle
-        
-        if let s: ConnectivityState = self.grpcManager.connection?.connectivity.state {
-            state = s
-        }
-        
-        if state == .idle || state == .shutdown {
-            self.btnConnect.isEnabled = true
-            self.btnDisconnect.isEnabled = false
-            self.btnGetRoomList.isEnabled = false
-            self.btnCreate.isEnabled = false
-            self.btnJoin.isEnabled = false
-            self.btnLeave.isEnabled = false
-            self.btnSend.isEnabled = false
-        } else if state == .ready {
-            self.btnConnect.isEnabled = false
-            self.btnDisconnect.isEnabled = true
-            self.btnGetRoomList.isEnabled = true
-            self.btnCreate.isEnabled = false
-            self.btnJoin.isEnabled = false
-            self.btnLeave.isEnabled = false
-            self.btnSend.isEnabled = true
-        }
+//        var state: ConnectivityState = .idle
+//
+//        if let s: ConnectivityState = self.grpcManager.connection?.connectivity.state {
+//            state = s
+//        }
+//
+//        if state == .idle || state == .shutdown {
+//            self.btnConnect.isEnabled = true
+//            self.btnDisconnect.isEnabled = false
+//            self.btnGetRoomList.isEnabled = false
+//            self.btnCreate.isEnabled = false
+//            self.btnJoin.isEnabled = false
+//            self.btnLeave.isEnabled = false
+//            self.btnSend.isEnabled = false
+//        } else if state == .ready {
+//            self.btnConnect.isEnabled = false
+//            self.btnDisconnect.isEnabled = true
+//            self.btnGetRoomList.isEnabled = true
+//            self.btnCreate.isEnabled = false
+//            self.btnJoin.isEnabled = false
+//            self.btnLeave.isEnabled = false
+//            self.btnSend.isEnabled = true
+//        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -161,25 +161,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func connectButtonWasPressed(_ sender: Any) {
-        self.grpcManager.connet(host: nil, port: nil) { (response) in
+        self.grpcManager.connet(host: nil, port: nil) { (success) in
+            print(#function, success)
+        } chatStreamRespnse: { [weak self] (response) in
             print(#function, response)
-        } state: { [weak self] (state) in
-            print(#function, state)
             
             if let weakSelf = self {
                 DispatchQueue.main.async {
                     weakSelf.changeStateButton()
-                }
-            }
-        } error: { (error) in
-            print(#function, error)
-        }
 
-        self.grpcManager.connectChatClientStreamService { [weak self] (response) in
-            if let weakSelf = self {
-                DispatchQueue.main.async {
-                    weakSelf.changeStateButton()
-                    
                     if response.command == .chat {
                         weakSelf.tfMessage.text = ""
                         weakSelf.view.endEditing(true)
@@ -188,6 +178,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     }
                 }
             }
+        } state: { (state) in
+            print(#function, state)
+        } error: { (error) in
+            print(#function, error)
         }
     }
     
@@ -197,30 +191,35 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func getRoomListButtonWasPressed(_ sender: Any) {
-        if let response: Com_Ncsoft_Aiss_Chat_Paige_V1_GetAllChatRoomResponse = self.grpcManager.getChatRoomList() {
-            if response.chatRooms.count > 0 {
-                if let selectChatRoom: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom = response.chatRooms.first {
-                    self.chatRoom = selectChatRoom
-                    self.btnCreate.isEnabled = true
-                    self.btnJoin.isEnabled = true
-                    
-                    let alert = UIAlertController(title: "방 목록", message: "\(response)", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "확인", style: UIAlertAction.Style.cancel, handler: { action in
-                        
-                    }))
-                    
-                    self.present(alert, animated: true, completion: nil)
+        self.grpcManager.getChatRoomList { [weak self] (response) in
+            if let chatRooms: [Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom] = response?.chatRooms, chatRooms.count > 0 {
+                if let selectChatRoom: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom = chatRooms.first {
+                    if let weakSelf = self {
+                        DispatchQueue.main.async {
+                            weakSelf.chatRoom = selectChatRoom
+                            weakSelf.btnCreate.isEnabled = true
+                            weakSelf.btnJoin.isEnabled = true
+                            
+                            let alert = UIAlertController(title: "방 목록", message: "\(String(describing: response))", preferredStyle: .alert)
+                            
+                            alert.addAction(UIAlertAction(title: "확인", style: UIAlertAction.Style.cancel, handler: { action in
+                                
+                            }))
+                            
+                            weakSelf.present(alert, animated: true, completion: nil)
+                        }
+                    }
                 }
             }
         }
     }
     
     @IBAction func createButtonWasPressed(_ sender: Any) {
-        self.grpcManager.createChatRoom(createRoomID: "1")
+        self.grpcManager.createChatRoom(createRoomID: "8728")
     }
     
     @IBAction func joinButtonWasPressed(_ sender: Any) {
-        self.grpcManager.joinChatRoom(chatRoom: self.chatRoom, userID: "1", userName: "레이니")
+        self.grpcManager.joinChatRoom(chatRoom: self.chatRoom, userID: "2", userName: "레이니2")
     }
     
     @IBAction func leaveButtonWasPressed(_ sender: Any) {

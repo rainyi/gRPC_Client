@@ -6,8 +6,8 @@ target 'gRPC_Client' do
   use_frameworks!
 
   # Pods for gRPC_Client
-  pod ‘gRPC-Swift’, ‘1.0.0-alpha.22’
-
+  pod 'gRPC-Swift', '1.0.0-alpha.23'
+  
   target 'gRPC_ClientTests' do
     inherit! :search_paths
     # Pods for testing
