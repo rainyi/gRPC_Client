@@ -29,7 +29,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var tfRoomID: UITextField!
     @IBOutlet weak var tfMessage: UITextField!
     
-    var chatRoom: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom = Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom()
+    var chatRoomID: String?
+//    var chatRoom: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom = Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom()
     
     var grpcManager: gRPCManager = gRPCManager()
 
@@ -196,7 +197,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 if let selectChatRoom: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom = chatRooms.first {
                     if let weakSelf = self {
                         DispatchQueue.main.async {
-                            weakSelf.chatRoom = selectChatRoom
+                            weakSelf.chatRoomID = selectChatRoom.id
                             weakSelf.btnCreate.isEnabled = true
                             weakSelf.btnJoin.isEnabled = true
                             
@@ -219,7 +220,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func joinButtonWasPressed(_ sender: Any) {
-        self.grpcManager.joinChatRoom(chatRoom: self.chatRoom, userID: "2", userName: "레이니2")
+//        self.grpcManager.joinChatRoom(chatRoom: self.chatRoom, userID: "2", userName: "레이니2")
+        self.grpcManager.joinChatRoom(chatRoomID: self.chatRoomID ?? "", userID: "1", userName: "레이니")
     }
     
     @IBAction func leaveButtonWasPressed(_ sender: Any) {

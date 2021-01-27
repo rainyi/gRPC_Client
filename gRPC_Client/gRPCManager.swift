@@ -27,8 +27,8 @@ class gRPCManager: NSObject, ClientErrorDelegate, ConnectivityStateDelegate {
     private var errorHandler: Failure?
     private var successHandler: Success?
     
-    let hostName: String = "172.19.136.161"
-    let portNumber: Int = 31105
+    var hostName: String = "172.19.136.161"
+    var portNumber: Int = 31105
     var group: MultiThreadedEventLoopGroup?
     var connection: ClientConnection?
     var chatRoom: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom = Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom()
@@ -36,60 +36,191 @@ class gRPCManager: NSObject, ClientErrorDelegate, ConnectivityStateDelegate {
     var chatStreamServiceClient: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamServiceClientProtocol?
     var streamRequest = Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamRequest()
     var clientCall: BidirectionalStreamingCall<Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamRequest, Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamResponse>?
+    var chatRoomID: String?
     
     override init() {
         super.init()
     }
     
+    deinit {
+        self.disconnect()
+        self.commonInit()
+    }
+    
+    func commonInit() {
+        if self.group != nil {
+            self.group = nil
+        }
+        
+        if self.connection != nil {
+            self.connection = nil
+        }
+        
+        if self.chatRoomServiceClient != nil {
+            self.chatRoomServiceClient = nil
+        }
+        
+        if self.chatStreamServiceClient != nil {
+            self.chatStreamServiceClient = nil
+        }
+    }
+    
     func connet(host: String?, port: Int?, success: @escaping Success, chatStreamRespnse: @escaping ChatStreamResponse, state: @escaping CurrentState, error: @escaping Failure) {
+        if let h: String = host {
+            self.hostName = h
+        }
+        
+        if let p: Int = port {
+            self.portNumber = p
+        }
+        
+        self.successHandler = success
+        self.chatStreamResponseHandler = chatStreamRespnse
+        self.currentStateHandler = state
+        self.errorHandler = error
+        
+        self.initConnect()
+    }
+    
+    func initConnect() {
+        self.commonInit()
+        
         self.group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
         
         if let gr: MultiThreadedEventLoopGroup = self.group {
-//            var configuration = ClientConnection.Configuration(target: .hostAndPort(host ?? self.hostName, port ?? self.portNumber), eventLoopGroup: gr, tls: nil, connectionBackoff: ConnectionBackoff(initialBackoff: 1, maximumBackoff: 60, multiplier: 1, jitter: 1, minimumConnectionTimeout: 5))
-            var configuration = ClientConnection.Configuration(target: .hostAndPort(host ?? self.hostName, port ?? self.portNumber), eventLoopGroup: MultiThreadedEventLoopGroup(numberOfThreads: 1))
+            var configuration = ClientConnection.Configuration(target: .hostAndPort(self.hostName, self.portNumber), eventLoopGroup: gr, tls: nil, connectionBackoff: ConnectionBackoff(initialBackoff: 1, maximumBackoff: 60, multiplier: 1, jitter: 1, minimumConnectionTimeout: 5, retries: .upTo(5)))
+//            var configuration = ClientConnection.Configuration(target: .hostAndPort(host ?? self.hostName, port ?? self.portNumber), eventLoopGroup: MultiThreadedEventLoopGroup(numberOfThreads: 1))
             
             configuration.errorDelegate = self
             configuration.connectivityStateDelegate = self
             
-            self.successHandler = success
-            self.chatStreamResponseHandler = chatStreamRespnse
-            self.currentStateHandler = state
-            self.errorHandler = error
-            
             // connection 시작, 클라이언트 생성
             self.connection = ClientConnection.init(configuration: configuration)
             
-            if let channel: ClientConnection = self.connection {
-                self.chatRoomServiceClient = Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoomServiceClient(channel: channel)
-                self.chatStreamServiceClient = Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamServiceClient(channel: channel)
-                self.makeRPCCall()
-            }
+            self.connecting()
+        }
+    }
+    
+    func connecting() {
+        if let channel: ClientConnection = self.connection {
+            self.chatRoomServiceClient = Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoomServiceClient(channel: channel)
+            self.chatStreamServiceClient = Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamServiceClient(channel: channel)
+            self.makeRPCCall()
         }
     }
     
     func disconnect() {
 //        do {
-//            self.clientCall?.sendEnd(promise: nil)
-//            _ = try self.clientCall?.status.wait()
-//            try self.group.syncShutdownGracefully()
+            if let call: BidirectionalStreamingCall<Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamRequest, Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamResponse> = self.clientCall {
+                call.sendEnd(promise: nil)
+//                _ = try call.status.wait()
+            }
 //        } catch let error {
 //            print("\(type(of: self)): Could not shutdown gracefully -", error.localizedDescription)
 //        }
         
         if let channel: ClientConnection = self.connection {
             do {
-                try! channel.close().wait()
+                try channel.close().wait()
+            } catch let error {
+                print("\(type(of: self)): channel close -", error.localizedDescription)
+            }
+        }
+        
+        if let gr: MultiThreadedEventLoopGroup = self.group {
+            do {
+                try gr.syncShutdownGracefully()
+            } catch let error {
+                print("\(type(of: self)): syncShutdownGracefully -", error.localizedDescription)
             }
         }
     }
     
+    func checkConnectionState() {
+        if let channel: ClientConnection = self.connection {
+            if channel.connectivity.state != .ready {
+                self.connecting()
+            }
+        } else {
+            self.initConnect()
+        }
+    }
+    
+    func checkWhetherStatus(status: GRPCStatus) -> Bool {
+        var result: Bool = false
+        
+        print(#function, status)
+        
+        // https://github.com/grpc/grpc/blob/master/doc/statuscodes.md
+        switch status.code {
+        case .ok:
+            result = true
+            break
+            
+        case .cancelled:
+            break
+            
+        case .unknown:
+            break
+            
+        case .invalidArgument:
+            break
+            
+        case .deadlineExceeded:
+            self.initConnect()
+            break
+            
+        case .notFound:
+            break
+            
+        case .alreadyExists:
+            break
+            
+        case .permissionDenied:
+            break
+            
+        case .resourceExhausted:
+            break
+            
+        case .failedPrecondition:
+            if let fail: Failure = self.errorHandler {
+                fail(status)
+            }
+            
+            break
+            
+        case .aborted:
+            break
+            
+        case .outOfRange:
+            break
+            
+        case .unimplemented:
+            break
+            
+        case .internalError:
+            break
+            
+        case .dataLoss:
+            break
+            
+        case .unauthenticated:
+            break
+            
+        default:
+            break
+        }
+        
+        return result
+    }
+    
     func makeRPCCall() {
-        let timeAmount = TimeAmount.minutes(1)
-        let timeLimit = TimeLimit.timeout(timeAmount)
-        let options = CallOptions(timeLimit: timeLimit)
+//        let timeAmount = TimeAmount.minutes(1)
+//        let timeLimit = TimeLimit.timeout(timeAmount)
+//        let options = CallOptions(timeLimit: timeLimit)
         
         if let client: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamServiceClientProtocol = self.chatStreamServiceClient {
-            self.clientCall = client.send(callOptions: options, handler: { [weak self] (response) in
+            self.clientCall = client.send(callOptions: nil, handler: { [weak self] (response) in
                 print(response)
                 
                 if let weakSelf = self {
@@ -104,15 +235,7 @@ class gRPCManager: NSObject, ClientErrorDelegate, ConnectivityStateDelegate {
                     print(#function, status)
                     
                     if let weakSelf = self {
-                        let code = status.code
-                        
-                        print(code)
-                        
-                        if code != .ok {
-                            if let fail: Failure = weakSelf.errorHandler {
-                                fail(status)
-                            }
-                        }
+                        _ = weakSelf.checkWhetherStatus(status: status)
                     }
                 }
                 
@@ -140,10 +263,11 @@ class gRPCManager: NSObject, ClientErrorDelegate, ConnectivityStateDelegate {
                 }
             }
         }
-
     }
     
     func getChatRoomList(completion: @escaping (Com_Ncsoft_Aiss_Chat_Paige_V1_GetAllChatRoomResponse?) -> Void) {
+        self.checkConnectionState()
+        
         if let chatRoomServiceClient: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoomServiceClient = self.chatRoomServiceClient {
             let request = Com_Ncsoft_Aiss_Chat_Paige_V1_GetAllChatRoomRequest()
 
@@ -176,7 +300,9 @@ class gRPCManager: NSObject, ClientErrorDelegate, ConnectivityStateDelegate {
         }
     }
     
-    func createChatRoom (createRoomID: String, createRoomTitle: String = "우경이의 방") {
+    func createChatRoom (createRoomID: String, createRoomTitle: String = "의 방") {
+        self.checkConnectionState()
+        
         var createChatRequest = Com_Ncsoft_Aiss_Chat_Paige_V1_CreateChatRoomRequest()
         
         createChatRequest.chatRoomID = createRoomID
@@ -194,15 +320,13 @@ class gRPCManager: NSObject, ClientErrorDelegate, ConnectivityStateDelegate {
         }
     }
     
-    func joinChatRoom(chatRoom: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom, userID: String, userName: String) {
-        self.streamRequest.chatRoomID = chatRoom.id
+    func joinChatRoom(chatRoomID: String, userID: String, userName: String) {
+        self.chatRoomID = chatRoomID
+        self.checkConnectionState()
+        self.streamRequest.chatRoomID = chatRoomID
         self.streamRequest.command = .join
         self.streamRequest.userID = userID
         self.streamRequest.userName = userName
-        
-        if self.clientCall == nil {
-            self.makeRPCCall()
-        }
         
         if let call: BidirectionalStreamingCall<Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamRequest, Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamResponse>
             = self.clientCall {
@@ -211,11 +335,8 @@ class gRPCManager: NSObject, ClientErrorDelegate, ConnectivityStateDelegate {
     }
     
     func leaveChatRoom() {
+        self.checkConnectionState()
         self.streamRequest.command = .leave
-        
-        if self.clientCall == nil {
-            self.makeRPCCall()
-        }
         
         if let call: BidirectionalStreamingCall<Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamRequest, Com_Ncsoft_Aiss_Chat_Paige_V1_ChatStreamResponse> = self.clientCall {
             call.sendMessage(streamRequest, compression: .deferToCallDefault, promise: .none)
@@ -223,6 +344,7 @@ class gRPCManager: NSObject, ClientErrorDelegate, ConnectivityStateDelegate {
     }
     
     func sendMessageToChatRoom(message: String) {
+        self.checkConnectionState()
         self.streamRequest.command = .chat
         self.streamRequest.message = message
         
