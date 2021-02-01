@@ -33,7 +33,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
 //    var chatRoom: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom = Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom()
     
     var grpcManager: gRPCManager = gRPCManager()
-
+    var grpcStuff: gRPCStuff?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -49,14 +50,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         self.initButtons()
         self.makeBorderButton()
         self.changeStateButton()
-        
-//        self.btnConnect.isEnabled = true
-//        self.btnDisconnect.isEnabled = false
-//        self.btnGetRoomList.isEnabled = false
-//        self.btnCreate.isEnabled = false
-//        self.btnJoin.isEnabled = false
-//        self.btnLeave.isEnabled = false
-//        self.btnSend.isEnabled = false
     }
     
     func initButtons() {
@@ -162,6 +155,28 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func connectButtonWasPressed(_ sender: Any) {
+        #if true
+        self.grpcStuff = gRPCStuff(ip: nil, port: nil, success: { (success) in
+            print(#function, success)
+        }, chatStreamRespnse: { [weak self] (response) in
+            print(#function, response)
+            
+            if let weakSelf = self {
+                DispatchQueue.main.async {
+                    weakSelf.changeStateButton()
+
+                    if response.command == .chat {
+                        weakSelf.tfMessage.text = ""
+                        weakSelf.view.endEditing(true)
+                    } else {
+
+                    }
+                }
+            }
+        }, error: { (error) in
+            print(#function, error)
+        })
+        #else
         self.grpcManager.connet(host: nil, port: nil) { (success) in
             print(#function, success)
         } chatStreamRespnse: { [weak self] (response) in
@@ -184,14 +199,24 @@ class ViewController: UIViewController, UITextFieldDelegate {
         } error: { (error) in
             print(#function, error)
         }
+        #endif
     }
     
     @IBAction func disconnectButtonWasPressed(_ sender: Any) {
+        #if true
+        if let gRPC: gRPCStuff = self.grpcStuff {
+            gRPC.disconnect()
+        }
+        #else
         self.grpcManager.disconnect()
         self.changeStateButton()
+        #endif
     }
     
     @IBAction func getRoomListButtonWasPressed(_ sender: Any) {
+        #if true
+        
+        #else
         self.grpcManager.getChatRoomList { [weak self] (response) in
             if let chatRooms: [Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom] = response?.chatRooms, chatRooms.count > 0 {
                 if let selectChatRoom: Com_Ncsoft_Aiss_Chat_Paige_V1_ChatRoom = chatRooms.first {
@@ -213,26 +238,51 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 }
             }
         }
+        #endif
     }
     
     @IBAction func createButtonWasPressed(_ sender: Any) {
+        #if true
+        if let gRPC: gRPCStuff = self.grpcStuff {
+            gRPC.createChatRoom(createRoomID: "8728")
+        }
+        #else
         self.grpcManager.createChatRoom(createRoomID: "8728")
+        #endif
     }
     
     @IBAction func joinButtonWasPressed(_ sender: Any) {
+        #if true
+        if let gRPC: gRPCStuff = self.grpcStuff {
+            gRPC.joinChatRoom(chatRoomID: nil, userID: "1", userName: "레이니")
+        }
+        #else
 //        self.grpcManager.joinChatRoom(chatRoom: self.chatRoom, userID: "2", userName: "레이니2")
         self.grpcManager.joinChatRoom(chatRoomID: self.chatRoomID ?? "", userID: "1", userName: "레이니")
+        #endif
     }
     
     @IBAction func leaveButtonWasPressed(_ sender: Any) {
+        #if true
+        if let gRPC: gRPCStuff = self.grpcStuff {
+            gRPC.leaveChatRoom()
+        }
+        #else
         self.grpcManager.leaveChatRoom()
         self.changeStateButton()
+        #endif
     }
     
     @IBAction func sendButtonWasPressed(_ sender: Any) {
         if let text: String = self.tfMessage.text {
             if text.count > 0 {
+                #if true
+                if let gRPC: gRPCStuff = self.grpcStuff {
+                    gRPC.sendMessageToChatRoom(message: text)
+                }
+                #else
                 self.grpcManager.sendMessageToChatRoom(message: text)
+                #endif
             }
         }
     }
